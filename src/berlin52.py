@@ -1,4 +1,5 @@
 from util import *
+from heuristics.nearestneighbor import NearestNeighbor
 
 def read_tsp(file_path):
     with open(file_path) as f:
@@ -13,13 +14,18 @@ def read_tsp(file_path):
     for line in lines:
         node, x, y = line
 
-        nodes.append(Node(int(node), int(x), int(y)))
-        # nodes[int(city)] = {"x": int(x), "y": int(y)}
+        nodes.append(Node(int(node), float(x), float(y)))
 
     return nodes
 
 
-cities = read_tsp('data/a280.tsp')
-print(cities)
+cities = read_tsp('data/berlin52.tsp')
+# print(cities)
 
-print(euc_distance(cities[1], cities[2]))
+nn = NearestNeighbor()
+
+# nn.heuristic(cities[2], cities)
+
+path = nn.path(cities)
+for node in path:
+    print(node)
