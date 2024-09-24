@@ -1,4 +1,11 @@
+# Para ignorar virtual environment
+env/
 venv/
+ENV/
+VENV/
+
+# Para ignorar arquivos de grafos
 data/
 
+# Para ignorar arquivos de cache do Python
 __pycache__/
