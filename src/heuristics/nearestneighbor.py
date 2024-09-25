@@ -1,9 +1,16 @@
 from util import *
 
 class NearestNeighbor:
+
     def heuristic(self, start_node: Node, nodes: list):
         '''
         Heuristic function to find the nearest neighbor of a given node
+
+        :return:\n
+                - Node: The nearest neighbor\n
+                - float: The distance to the nearest neighbor\n
+                - list: The remaining nodes
+        :rtype: The nearest neighbor, the distance to the nearest neighbor, and the remaining nodes
         '''
 
         nodes.remove(start_node)
@@ -17,7 +24,7 @@ class NearestNeighbor:
                 next_node = node
                 next_distance = distance
 
-        return next_node, nodes, next_distance
+        return next_node, next_distance, nodes
 
     def path(self, nodes):
         '''
@@ -31,7 +38,7 @@ class NearestNeighbor:
         path.append([node, distance])
 
         while nodes:
-            node, nodes, distance = self.heuristic(node, nodes)
+            node, distance, nodes = self.heuristic(node, nodes)
 
             if not nodes:
                 break
