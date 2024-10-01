@@ -1,5 +1,5 @@
 from util import *
-from heuristics.nearestneighbor import NearestNeighbor
+from heuristics import NearestNeighbor, NearestNeighborD
 
 def read_tsp(file_path):
     with open(file_path) as f:
@@ -23,9 +23,14 @@ cities = read_tsp('data/berlin52.tsp')
 # print(cities)
 
 nn = NearestNeighbor()
+nnd = NearestNeighborD()
 
-# nn.heuristic(cities[2], cities)
+start_city = cities[0]
+# path = nn.path(start_city, cities)
+path = nnd.build_path(start_city, cities)
 
-path = nn.path(cities)
+distance = 0
 for node in path:
-    print(node)
+    distance += node[1]
+
+print("Distance:", distance)
