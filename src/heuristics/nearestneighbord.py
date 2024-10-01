@@ -17,8 +17,8 @@ class NearestNeighborD:
 
 
         for node in nodes:
-            left_distance = euc_distance(left_nearest_node, node)
-            right_distance = euc_distance(right_nearest_node, node)
+            left_distance = euc_distance(left_node, node)
+            right_distance = euc_distance(right_node, node)
 
             if left_distance < left_nearest_distance:
                 left_nearest_node = node
@@ -28,10 +28,13 @@ class NearestNeighborD:
                 right_nearest_node = node
                 right_nearest_distance = right_distance
 
-        if left_nearest_distance < right_nearest_distance:
+        print("left node: ", left_node, "| right node", right_node)
+        if left_nearest_distance <= right_nearest_distance:
+            print("left nearest node: ", left_nearest_node, "|", left_nearest_distance, "<=", right_nearest_distance, "right nearest node", right_nearest_node)
             return left_nearest_node, right_node, left_nearest_distance, right_nearest_distance
 
         else:
+            print("right nearest node: ", right_nearest_node, "|", right_nearest_distance, "<", left_nearest_distance, "left nearest node", left_nearest_node)
             return left_node, right_nearest_node, left_nearest_distance, right_nearest_distance
 
     def build_path(self, start_node, unvisited):
@@ -59,13 +62,11 @@ class NearestNeighborD:
 
 
             if left_node in unvisited:
-                print("left node: ", left_node, "|", left_distance, "<", right_distance)
                 unvisited.remove(left_node)
                 path[0][1] = left_distance
                 path.appendleft([left_node, 0])
 
             elif right_node in unvisited:
-                print("right node: ", right_node, "|", right_distance, "<", left_distance)
                 unvisited.remove(right_node)
                 path.append([right_node, right_distance])
 

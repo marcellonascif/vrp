@@ -1,4 +1,3 @@
-import random
 from util import *
 
 class NearestNeighbor:
