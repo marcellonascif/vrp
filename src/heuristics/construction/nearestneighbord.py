@@ -1,6 +1,6 @@
 from collections import deque
 from util import *
-from heuristics.nearestneighbor import NearestNeighbor
+from .nearestneighbor import NearestNeighbor
 
 class NearestNeighborD:
 
@@ -28,14 +28,11 @@ class NearestNeighborD:
                 right_nearest_node = node
                 right_nearest_distance = right_distance
 
-        print("left node: ", left_node, "| right node", right_node)
         if left_nearest_distance <= right_nearest_distance:
-            print("left nearest node: ", left_nearest_node, "|", left_nearest_distance, "<=", right_nearest_distance, "right nearest node", right_nearest_node)
-            return left_nearest_node, right_node, left_nearest_distance, right_nearest_distance
+            return left_nearest_node, left_node
 
         else:
-            print("right nearest node: ", right_nearest_node, "|", right_nearest_distance, "<", left_nearest_distance, "left nearest node", left_nearest_node)
-            return left_node, right_nearest_node, left_nearest_distance, right_nearest_distance
+            return right_node, right_nearest_node
 
     def build_path(self, start_node, unvisited):
         '''
@@ -45,32 +42,33 @@ class NearestNeighborD:
         nn = NearestNeighbor()
         path = deque()
 
-        left_node, left_distance = start_node, 0
+        left_node = start_node
         unvisited.remove(left_node)
 
         right_node, right_distance = nn.find_nearest_neighbor(left_node, unvisited)
         unvisited.remove(right_node)
 
-        print("start left node: ", left_node, "|", left_distance)
-        print("start right node: ", right_node, "|", right_distance)
-
-        path.append([left_node, left_distance])
-        path.append([right_node, right_distance])
+        path.append([left_node, right_node])
 
         while unvisited:
-            left_node, right_node, left_distance, right_distance = self.find_nearest_neighbor(left_node, right_node, unvisited)
+            full_left_node = left_node
+            full_right_node = right_node
 
+            left_node, right_node = self.find_nearest_neighbor(left_node, right_node, unvisited)
 
             if left_node in unvisited:
                 unvisited.remove(left_node)
-                path[0][1] = left_distance
-                path.appendleft([left_node, 0])
+                path.appendleft([left_node, right_node])
+
+                right_node = full_right_node
 
             elif right_node in unvisited:
                 unvisited.remove(right_node)
-                path.append([right_node, right_distance])
+                path.append([left_node, right_node])
+
+                left_node = full_left_node
 
             else:
-                print("neither in unvisited")
+                continue
 
         return path

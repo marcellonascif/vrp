@@ -30,7 +30,8 @@ start_city = cities[0]
 path = nnd.build_path(start_city, cities)
 
 distance = 0
-for node in path:
-    distance += node[1]
+for edge in path:
+    print(edge)
+    distance += euc_distance(edge[0], edge[1])
 
 print("Distance:", distance)
