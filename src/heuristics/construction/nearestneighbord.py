@@ -68,7 +68,7 @@ class NearestNeighborD:
 
                 left_node = full_left_node
 
-            else:
-                continue
+        # add the distance from the last node to the first node in the first element of the path
+        path.append([path[-1][1], path[0][0]])
 
         return path

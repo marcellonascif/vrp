@@ -9,7 +9,7 @@ class NearestNeighbor:
         :return:\n
                 - Node: The nearest neighbor\n
                 - float: The distance to the nearest neighbor\n
-                - list: The remaining nodes
+                - List: The remaining nodes
         :rtype: The nearest neighbor, the distance to the nearest neighbor, and the remaining nodes
         '''
 
@@ -23,7 +23,7 @@ class NearestNeighbor:
                 nearest_node = node
                 nearest_distance = distance
 
-        return nearest_node, nearest_distance
+        return nearest_node
 
     def build_path(self, start_node, unvisited):
         '''
@@ -32,18 +32,17 @@ class NearestNeighbor:
 
         path = []
 
-        node, distance = start_node, 0
+        node = start_node
         unvisited.remove(node)
 
-        path.append([node, distance])
-
         while unvisited:
-            node, distance = self.find_nearest_neighbor(node, unvisited)
+            old_node = node
+            node = self.find_nearest_neighbor(old_node, unvisited)
 
             unvisited.remove(node)
-            path.append([node, distance])
+            path.append([old_node, node])
 
         # add the distance from the last node to the first node in the first element of the path
-        path[0][1] = euc_distance(path[-1][0], path[0][0])
+        path.append([path[-1][1], path[0][0]])
 
         return path
